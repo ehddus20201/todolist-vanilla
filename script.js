@@ -4,6 +4,8 @@ const addInput = document.getElementById("addInput");
 const addBtn = document.getElementById("addBtn");
 const deleteBtn = document.getElementsByClassName("delete_btn");
 const ul = document.getElementById("todoList");
+const chkmark = document.querySelector(".chkmark");
+const todoText = document.querySelector(".todo_text")
 
 
 
@@ -42,13 +44,22 @@ addBtn.addEventListener("click", () =>{
   }else{
     renderItem(target,value,id);
     addItemArray(id,value);
+    addInput.value='';
   }
   
-  addInput.value='';
+  
 })
 
 
-// ul.insertAdjacentHTML("beforeend", '<li>asdf</li>');
 
 
+function removeItem(id){
 
+//해당 `data-id`를 가진 `<li>` 요소를 찾아 DOM에서 제거
+
+}
+
+function removeItemArray(id){
+
+// 배열에서 해당 id와 일치하는 항목을 제거 (filter 사용)
+}
