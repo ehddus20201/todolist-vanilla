@@ -91,8 +91,9 @@ function createErrorMsg() {
     errorMsg.appendChild(alertMsg);
 
     if (!inputWrap.querySelector(".inputErrorMsg")) {
-    inputWrap.appendChild(errorMsg);
-  } 
+      const countWrap = document.querySelector("#todoCount");
+      inputWrap.insertBefore(errorMsg,countWrap);
+  }
 } 
 
 /* 할일 추가 이벤트 */
@@ -211,12 +212,12 @@ function updateCount(){
     }});
 
     if(todoListArray.length === 0){
-        countWrap.innerHTML = "오늘 할 일을 적어봐 !! 🤓";
+        countWrap.innerHTML = "해야 할 일을 적어봐 !! 🤓";
         return;
       }
     
     if(todoListArray.length === 0 || count === 0) {
-        countWrap.innerHTML =  "오늘 할 일 끝 !! 🥳";
+        countWrap.innerHTML =  "해야 할 일 끝 !! 🥳";
     } else {
       countWrap.innerHTML = `남은 할 일 : <span id="remainingCount">${count}</span>개`;
     };
@@ -253,7 +254,7 @@ function changeArray(e) {
 
 
 /* localStorage 저장 */
-const TODOS_KEY = "todoArray"
+const TODOS_KEY = "todoListArray"
 function saveTodos() {
   localStorage.setItem(TODOS_KEY, JSON.stringify(todoListArray));
 }
