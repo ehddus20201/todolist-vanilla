@@ -5,7 +5,7 @@ const todoList = document.querySelector('#todoList');
 const inputWrap = todoForm.getElementsByClassName("input_wrap")[0];
 let todoListArray = [];
 
-let isInitialLoad = true; // 로드 직후
+
 updateCount(); // isInitialLoad = true 
 
 /* --- 할 일 추가하기 --- */
@@ -88,6 +88,7 @@ function createErrorMsg() {
 
 /* 할일 추가 이벤트 */
 function handleTodoList(e) {
+  e.preventDefault();
   const target = todoList;
   let value = addInput.value;
 
@@ -110,7 +111,7 @@ function handleTodoList(e) {
   addInput.focus();
 }
 
-/* 키보드 엔터 이벤트 */
+/* 키보드 엔터 이벤트 
 function handleEnterKey(e) {
   if(e.code === 'Enter' && !e.shiftKey) {
     //기본동작 차단하기 위해 (줄바꿈, 폼제출 등등)
@@ -121,6 +122,7 @@ function handleEnterKey(e) {
 }
 
 addInput.addEventListener('keypress', handleEnterKey);
+*/
 addBtn.addEventListener('click', handleTodoList);
 
 
@@ -182,7 +184,7 @@ function handleRemoveAll(e) {
   if(confirmAns){ 
     removeAllItem();
     removeAllItemArray();
-    isInitialLoad = true;
+    
     updateCount();
   }
 }
@@ -208,7 +210,7 @@ function updateCount(){
       count++;
     }});
 
-    if(todoListArray.length === 0 && isInitialLoad){
+    if(todoListArray.length === 0){
         countWrap.innerHTML = "오늘 할 일을 적어봐 !! 🤓";
         return;
       }
@@ -219,7 +221,6 @@ function updateCount(){
       countWrap.innerHTML = `남은 할 일 : <span id="remainingCount">${count}</span>개`;
     };
 
-    isInitialLoad = false; 
 }
 
 
@@ -267,7 +268,7 @@ if (savedTodoList) {
 
   // todoListArray에 localStorage 저장 항목 추가
   todoListArray = parsedTodoList.slice();
-  isInitialLoad = false;
+  
   updateCount();
   } );
 
