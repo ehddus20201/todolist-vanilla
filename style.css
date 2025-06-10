@@ -350,14 +350,14 @@ select {
 }
 
 /* todo Counter 추가 - 250609 수정 */
-#todoCount {
+.todo_count{
 	padding-top: 10px;
 	font-size: 14px;
 	color: #6c5a72;
 	border-radius: 10px;
 }
 
-#remainingCount {
+.todo_count > span {
 	color: #6c5a72;
 	font-weight: bold;
 }
