@@ -60,7 +60,7 @@ function createItem(value, id, isChecked, createdAt) {
 }
 
 /* todoList 안 li 추가 */
-// 
+
 function renderItem({target, value, id, isChecked = false, createdAt}) {
   const li = createItem(value, id, isChecked, createdAt);
   // prepend(): DOM 요소에 자식 요소를 맨 앞에 추가
@@ -253,7 +253,7 @@ function changeArray(e) {
 };
 
 
-/* localStorage 저장 */
+/* --- localStorage 저장 --- */
 const TODOS_KEY = "todoListArray"
 function saveTodos() {
   localStorage.setItem(TODOS_KEY, JSON.stringify(todoListArray));
