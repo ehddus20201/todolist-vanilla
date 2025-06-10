@@ -342,6 +342,13 @@ select {
 	}
 }
 
+/* 시간표시 250609 */
+.timestamp {
+  font-size: 12px;
+  color: #999;
+  margin-right: 8px;
+}
+
 /* todo Counter 추가 - 250609 수정 */
 #todoCount {
 	padding-top: 10px;

@@ -5,14 +5,16 @@ const todoList = document.querySelector('#todoList');
 const inputWrap = todoForm.getElementsByClassName("input_wrap")[0];
 let todoListArray = [];
 
-
-updateCount(); // isInitialLoad = true 
+// 로드 직후
+updateCount();
 
 /* --- 할 일 추가하기 --- */
 
 /* 추가할 li 돔으로 형성 */
 // 보안&유지보수 측면에서는 안전한 방법: dom api로 생성
-function createItem(value, id, isChecked) {
+// 250609 시간 생성
+
+function createItem(value, id, isChecked, createdAt) {
   const li = document.createElement('li');
   li.setAttribute('data-id', id);
 
@@ -45,17 +47,22 @@ function createItem(value, id, isChecked) {
   delBlind.className = 'blind';
   delBlind.textContent = '삭제';
 
+  const timeStamp = document.createElement('span');
+  timeStamp.className = 'timestamp';
+  timeStamp.textContent = createdAt;
+
   //appendChild() : 요소만 추가 가능(텍스트 x), 하나만 추가
   delBtn.appendChild(delBlind);
 
-  li.append(label, delBtn);
+  li.append(label, timeStamp, delBtn);
 
   return li;
 }
 
 /* todoList 안 li 추가 */
-function renderItem({target, value, id, isChecked = false}) {
-  const li = createItem(value, id, isChecked);
+// 
+function renderItem({target, value, id, isChecked = false, createdAt}) {
+  const li = createItem(value, id, isChecked, createdAt);
   // prepend(): DOM 요소에 자식 요소를 맨 앞에 추가
   target.prepend(li);
 }
@@ -63,7 +70,9 @@ function renderItem({target, value, id, isChecked = false}) {
 /* 추가한 값 배열에 저장 */
 function addItemArray(id, value, isChecked = false) {
   //unshift() : 맨 앞에 하나 이상의 요소를 추가
-  todoListArray.unshift({ id, value, isChecked });
+  //시간 문자열 생성
+  const createdAt = new Date().toLocaleString()
+  todoListArray.unshift({ id, value, isChecked, createdAt });
   saveTodos();
 }
 
@@ -95,13 +104,17 @@ function handleTodoList(e) {
   //안전하고 충돌 없는 고유 ID(=UUID v4)를 생성함 => IE 지원x
   const id = crypto.randomUUID();
 
+  //
+  const createdAt = new Date().toLocaleString();
+
+
   // trim() :문자열 앞뒤의 공백을 제거
   if (value.trim().length === 0) {
     createErrorMsg();
 
   } else {
-    renderItem({ target, value, id });
-    addItemArray(id, value, false);
+    renderItem({ target, value, id, createdAt });
+    addItemArray(id, value, false, createdAt);
     updateCount();
     const existingErrorMsg = inputWrap.querySelector(".inputErrorMsg");
     if (existingErrorMsg) existingErrorMsg.remove();
@@ -110,19 +123,6 @@ function handleTodoList(e) {
   addInput.value = '';
   addInput.focus();
 }
-
-/* 키보드 엔터 이벤트 
-function handleEnterKey(e) {
-  if(e.code === 'Enter' && !e.shiftKey) {
-    //기본동작 차단하기 위해 (줄바꿈, 폼제출 등등)
-    e.preventDefault();
-
-    handleTodoList();
-  }
-}
-
-addInput.addEventListener('keypress', handleEnterKey);
-*/
 addBtn.addEventListener('click', handleTodoList);
 
 
@@ -221,6 +221,7 @@ function updateCount(){
       countWrap.innerHTML = `남은 할 일 : <span id="remainingCount">${count}</span>개`;
     };
 
+    
 }
 
 
@@ -257,19 +258,19 @@ function saveTodos() {
   localStorage.setItem(TODOS_KEY, JSON.stringify(todoListArray));
 }
 
-/* localStorage에서 불러오기 */
 const savedTodoList = localStorage.getItem(TODOS_KEY);
+
+/* localStorage에서 불러오기 */
 if (savedTodoList) {
   const parsedTodoList = JSON.parse(savedTodoList);
 
-  parsedTodoList.forEach( function(item){
-  const li = createItem(item.value, item.id, item.isChecked);
-  todoList.append(li); 
+  parsedTodoList.forEach(item => {
+    const li = createItem(item.value, item.id, item.isChecked, item.createdAt);
+    todoList.append(li);
+  });
 
-  // todoListArray에 localStorage 저장 항목 추가
+   // todoListArray에 localStorage 저장 항목 추가
   todoListArray = parsedTodoList.slice();
   
   updateCount();
-  } );
-
 }
