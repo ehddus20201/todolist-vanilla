@@ -33,17 +33,19 @@
 
 ## 📁 폴더 구조
 
-todolist-vanilla-main/
-│
-├── index.html
-├── style.css
-├── reset.css
-├── script.js
-├── lib/
-│   ├── dom.js
-│   └── storage.js
-└── assets/
-    └── images/
+```
+📦 todolist-vanilla-main/
+├── 📄 index.html
+├── 🎨 style.css
+├── 🎨 reset.css
+├── ⚙️ script.js
+├── 📂 lib/
+│   ├── ⚙️ dom.js
+│   └── ⚙️ storage.js
+└── 📂 assets/
+    └── 🖼️ images/
+```
+
 
 <br/>
 
@@ -53,15 +55,10 @@ todolist-vanilla-main/
 
 ※ 위 이미지는 프로젝트 실제 실행 화면입니다.
 
-/*
-1. 단축키 ⌘⇧V (Windows/Linux: Ctrl+Shift+V)를 누르면 우측에 마크다운 렌더링 화면이 뜬다.
-2. ![메인 화면](이미지 주소) 가 제대로 경로만 잡혔다면 로컬 파일 표시
-*/
-
 <br/>
 
 
-## 저장소 클론
+## 📥 저장소 클론
 ```bash
 git clone https://github.com/ehddus20201/todolist-vanilla.git
 ```
