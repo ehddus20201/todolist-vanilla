@@ -2,17 +2,17 @@ const addInput = document.querySelector('#addInput');
 const addBtn = document.querySelector('#addBtn');
 const allDelBtn = document.querySelector('#allDelBtn');
 const todoList = document.querySelector('#todoList');
-const inputWrap = todoForm.getElementsByClassName("input_wrap")[0];
+const inputWrap = document.querySelector(".input_wrap");
+const countWrap = document.querySelector("#todoCount");
+
 let todoListArray = [];
 
 // 로드 직후
 updateCount();
 
 /* --- 할 일 추가하기 --- */
-
 /* 추가할 li 돔으로 형성 */
 // 보안&유지보수 측면에서는 안전한 방법: dom api로 생성
-// 250609 시간 생성
 
 function createItem(value, id, isChecked, createdAt) {
   const li = document.createElement('li');
@@ -59,19 +59,18 @@ function createItem(value, id, isChecked, createdAt) {
   return li;
 }
 
-/* todoList 안 li 추가 */
 
-function renderItem({target, value, id, isChecked = false, createdAt}) {
+/* todoList 안 li 추가 */
+function renderItem({target, value, id, isChecked, createdAt}) {
   const li = createItem(value, id, isChecked, createdAt);
   // prepend(): DOM 요소에 자식 요소를 맨 앞에 추가
   target.prepend(li);
 }
 
 /* 추가한 값 배열에 저장 */
-function addItemArray(id, value, isChecked = false) {
+
+function addItemArray(id, value, isChecked, createdAt) {
   //unshift() : 맨 앞에 하나 이상의 요소를 추가
-  //시간 문자열 생성
-  const createdAt = new Date().toLocaleString()
   todoListArray.unshift({ id, value, isChecked, createdAt });
   saveTodos();
 }
@@ -91,30 +90,40 @@ function createErrorMsg() {
     errorMsg.appendChild(alertMsg);
 
     if (!inputWrap.querySelector(".inputErrorMsg")) {
-      const countWrap = document.querySelector("#todoCount");
       inputWrap.insertBefore(errorMsg,countWrap);
   }
 } 
-
+/* 시간 포맷 형식 변환 함수 */
+function currentTimeStamp() {
+  const currentTime = new Date();
+  const dateFormat = (n) => String(n).padStart(2, '0');
+  const yy = String(currentTime.getFullYear() ).slice(-2);
+  const mo = dateFormat(currentTime.getMonth() + 1);
+  const dd = dateFormat(currentTime.getDate());
+  const hh = dateFormat(currentTime.getHours());
+  const mm = dateFormat(currentTime.getMinutes());
+  
+  return `${yy}.${mo}.${dd} ${hh}:${mm}`
+}
 /* 할일 추가 이벤트 */
 function handleTodoList(e) {
   e.preventDefault();
+
   const target = todoList;
   let value = addInput.value;
 
-  //안전하고 충돌 없는 고유 ID(=UUID v4)를 생성함 => IE 지원x
+  // 안전하고 충돌 없는 고유 ID(=UUID v4)를 생성함 => IE 지원x
   const id = crypto.randomUUID();
 
-  //
-  const createdAt = new Date().toLocaleString();
-
+  // 현재 시각 타임스탬프 추가
+  const createdAt = currentTimeStamp();
 
   // trim() :문자열 앞뒤의 공백을 제거
   if (value.trim().length === 0) {
     createErrorMsg();
 
   } else {
-    renderItem({ target, value, id, createdAt });
+    renderItem({ target, value, id, isChecked: false, createdAt });
     addItemArray(id, value, false, createdAt);
     updateCount();
     const existingErrorMsg = inputWrap.querySelector(".inputErrorMsg");
@@ -200,7 +209,6 @@ todoList.addEventListener('click',handleRemove);
 
 // 할 일 개수 표시를 업데이트
 function updateCount(){
-    const countWrap = document.querySelector("#todoCount");
     if(!countWrap) return;
 
     
@@ -216,7 +224,7 @@ function updateCount(){
         return;
       }
     
-    if(todoListArray.length === 0 || count === 0) {
+    if(count === 0) {
         countWrap.innerHTML =  "해야 할 일 끝 !! 🥳";
     } else {
       countWrap.innerHTML = `남은 할 일 : <span id="remainingCount">${count}</span>개`;

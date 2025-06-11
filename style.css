@@ -223,8 +223,7 @@ select {
 
 .todo_label {
 	display: flex;
-	width: calc(100% - 42px);
-	margin-right: 12px;
+	width: calc(100% - 120px);
 	box-sizing: border-box;
 	align-items: center;
 	cursor: pointer;
@@ -265,7 +264,7 @@ select {
 
 .todo_label .todo_text {
 	display: inline-block;
-	width: calc(100% - 40px);
+	width: calc(100% - 30px);
 	word-wrap: break-word;
 	line-height: 1.25;
 }
@@ -322,7 +321,6 @@ select {
 	}
 }
 
-/* 할일 추가 값이 없을 때 Error msg - 250608 수정 */
 .inputErrorMsg {
 	width: 100%;
 	padding: 0px 20px;
@@ -342,14 +340,15 @@ select {
 	}
 }
 
-/* 시간표시 250609 */
 .timestamp {
+	display:inline-block;
+	max-width: 65px;
+	line-height: 1.25;
   font-size: 12px;
   color: #999;
-  margin-right: 8px;
+	text-align: right;
 }
 
-/* todo Counter 추가 - 250609 수정 */
 .todo_count{
 	padding-top: 10px;
 	font-size: 14px;
