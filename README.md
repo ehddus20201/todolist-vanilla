@@ -51,7 +51,7 @@
 
 ## 📸 화면 예시
 
-![메인화면](https://github.com/user-attachments/assets/1b89c3e5-2943-48d3-aff5-917446704415)
+![메인화면](https://github.com/user-attachments/assets/0ed5504f-583b-45be-bb3a-5f64e1c7e759)
 
 ※ 위 이미지는 프로젝트 실제 실행 화면입니다.
 
